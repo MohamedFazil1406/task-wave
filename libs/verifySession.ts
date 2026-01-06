@@ -12,7 +12,7 @@ export async function verifySession() {
 
   try {
     const decoded = await admin.auth().verifySessionCookie(sessionCookie, true);
-
+    console.log("Decoded session cookie:", decoded);
     return decoded; // user info
   } catch (error) {
     return null;

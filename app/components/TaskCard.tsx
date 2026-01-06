@@ -86,7 +86,7 @@ export default function TaskCard({
   };
 
   return (
-    <div className="relative border border-gray-300 rounded-lg p-4 m-10 w-[1220px] bg-white">
+    <div className="relative border border-gray-300 rounded-lg p-4 m-10 w-[1186px] bg-white">
       {/* TOP ROW */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl text-[#2f333c] font-bold">{title}</h2>

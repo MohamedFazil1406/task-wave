@@ -1,3 +1,4 @@
+// pages/api/tasks/create.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import admin, { adminDb } from "@/libs/firebaseAdmin";
 
@@ -10,32 +11,29 @@ export default async function handler(
   }
 
   try {
-    // 1️⃣ Read session cookie
     const sessionCookie = req.cookies.session;
-
     if (!sessionCookie) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    // 2️⃣ Verify logged-in user
     const decoded = await admin.auth().verifySessionCookie(sessionCookie, true);
 
     const { title, description } = req.body;
-
     if (!title) {
       return res.status(400).json({ error: "Title required" });
     }
 
-    // 3️⃣ Store task in Firestore
+    // 🔥 Write to Firestore (fast)
     const docRef = await adminDb.collection("tasks").add({
       title,
       description: description || "",
       completed: false,
-      userId: decoded.uid, // 🔐 from session
+      userId: decoded.uid,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
-    return res.status(200).json({
+    // 🔥 Respond immediately
+    return res.status(201).json({
       success: true,
       taskId: docRef.id,
     });

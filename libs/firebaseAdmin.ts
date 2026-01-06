@@ -1,6 +1,8 @@
 // lib/firebaseAdmin.ts
 import * as admin from "firebase-admin";
 
+console.log("ENV CHECK", !!process.env.FIREBASE_PRIVATE_KEY);
+
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
@@ -12,5 +14,4 @@ if (!admin.apps.length) {
 }
 
 export const adminDb = admin.firestore();
-
 export default admin;

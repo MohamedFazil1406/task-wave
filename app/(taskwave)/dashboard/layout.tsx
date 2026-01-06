@@ -1,6 +1,5 @@
-// app/(whatever)/layout.tsx  (or app/layout.tsx)
 import ProfileAvatar from "@/app/components/ProfileAvatar";
-import "../../../app/globals.css"; // adjust path if this file is in a nested folder
+import "../../../app/globals.css";
 import Link from "next/link";
 
 export default function RootLayout({
@@ -9,11 +8,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head />
-      <body className="min-h-screen bg-[#0f1720]">
-        {" "}
-        {/* global bg on body */}
+    <html lang="en" className="h-full">
+      <body className="h-full flex flex-col bg-[#0f1720]">
+        {/* Header */}
         <header className="bg-[#18212c] flex justify-between items-center px-4 py-3">
           <div className="font-extrabold text-white text-2xl">TaskWave</div>
 
@@ -22,9 +19,12 @@ export default function RootLayout({
               + Add Task
             </button>
           </Link>
+
           <ProfileAvatar />
         </header>
-        <main>{children}</main>
+
+        {/* Main content */}
+        <main className="flex-1 bg-white">{children}</main>
       </body>
     </html>
   );

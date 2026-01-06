@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Card from "@/app/components/Card";
-import SearchBar from "@/app/components/SearchTask";
+
 import TaskCard from "@/app/components/TaskCard";
 
 interface Task {
@@ -43,7 +43,7 @@ export default function DashboardContent() {
 
   return (
     <>
-      <div className="bg-white min-h-screen">
+      <div className="bg-white min-h-screen pt-6">
         {/* Stats cards */}
         <div className="grid grid-cols-3 gap-6 mt-6 px-10">
           <Card
@@ -67,11 +67,6 @@ export default function DashboardContent() {
             className="bg-[#faf9f9]"
             contentClassName="text-[#d9534f]"
           />
-        </div>
-
-        {/* Search */}
-        <div className="px-10 mt-6">
-          <SearchBar />
         </div>
 
         {/* Tasks */}

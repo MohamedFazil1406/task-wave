@@ -9,21 +9,18 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  try {
-    const session = req.cookies.session;
-    if (!session) return res.status(401).json({ error: "Unauthorized" });
+  const session = req.cookies.session;
+  if (!session) return res.status(401).json({ error: "Unauthorized" });
 
+  const { taskId, title, description, completed } = req.body;
+  if (!taskId) return res.status(400).json({ error: "taskId required" });
+
+  try {
     const decoded = await admin.auth().verifySessionCookie(session, true);
-    const { taskId, title, description, completed } = req.body;
 
     const docRef = adminDb.collection("tasks").doc(taskId);
-    const doc = await docRef.get();
 
-    if (!doc.exists || doc.data()?.userId !== decoded.uid) {
-      return res.status(403).json({ error: "Not allowed" });
-    }
-
-    await docRef.update({
+    const result = await docRef.update({
       title,
       description,
       completed,
@@ -31,7 +28,11 @@ export default async function handler(
     });
 
     return res.status(200).json({ success: true });
-  } catch (err) {
+  } catch (err: any) {
+    if (err.code === 5) {
+      // Firestore NOT_FOUND
+      return res.status(404).json({ error: "Task not found" });
+    }
     return res.status(500).json({ error: "Server error" });
   }
 }
